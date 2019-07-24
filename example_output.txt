@@ -1,0 +1,4 @@
+length of combined ALEXA/TRANCO list: 14558
+Verifying that the list is composed of only unique elements: True
+the ALEXA list, truncated at 10000 elements is a complete subset of the final list of 14558 elements: True
+the TRANCO list, truncated at 10000 elements is a complete subset of the final list of 14558 elements: True
