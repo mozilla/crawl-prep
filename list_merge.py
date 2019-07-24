@@ -20,7 +20,7 @@ with open(
 a = a[0 : FINAL_IDX + 1]
 # Save the ALEXA list into a set type for sanity checking list combination operations.
 alexa_set = set(a)
-# This should be 1 million.
+# This should be euqal to FINAL_IDX.
 alexa_length = len(a)
 
 # Open and parse the TRANCO list from local csv.
