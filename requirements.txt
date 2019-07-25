@@ -1,0 +1,6 @@
+requests
+matplotlib
+boto3
+publicsuffix
+bs4
+lxml

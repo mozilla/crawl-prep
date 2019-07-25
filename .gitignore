@@ -1,0 +1,5 @@
+*.json
+*.pyc
+*.swp
+venv
+.idea
