@@ -20,7 +20,7 @@ def parse(string):
     # for other understanding of TLD+1, use the below return function
     # return "".join([str.split("/")[2], "/", str.split("/")[3]])
 result = {}
-frequencey_dict = {}
+frequency_dict = {}
 for i in range(len(jsondata)):
     for j in jsondata[i][1]:
         if j.startswith("http"):
@@ -30,9 +30,9 @@ for i in range(len(jsondata)):
             else:
                 result[tld] = 1
 for key in result:
-    if result[key] in frequencey_dict:
-        frequencey_dict[result[key]] += 1
+    if result[key] in frequency_dict:
+        frequency_dict[result[key]] += 1
     else:
-        frequencey_dict[result[key]] = 1
+        frequency_dict[result[key]] = 1
 print(result)
 print(len(result))
