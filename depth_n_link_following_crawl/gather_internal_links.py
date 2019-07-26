@@ -3,6 +3,7 @@ from __future__ import absolute_import
 import json
 import multiprocessing
 import os
+import sys
 import time
 import urllib.parse
 from random import shuffle
@@ -90,8 +91,9 @@ def get_internal_links(site):
 def collect_homepage_links(sites, nprocesses=10):
     """Collect all homepage links for the given list of `sites`"""
     pool = multiprocessing.Pool(processes=nprocesses)
+    seed_urls = [x[1] for x in sites]
     results = pool.map(get_internal_links,
-                       [x[1] for x in sites],
+                       seed_urls,
                        chunksize=100)
     pool.close()
     pool.join()
@@ -115,11 +117,27 @@ def alexa_top_n(n):
     )
 
 
+def load_ranked_seed_list(seed_list_arg):
+    site_list = os.path.join(os.getcwd(), seed_list_arg)
+    if not os.path.isfile(site_list):
+        print("%s does not exist." % site_list)
+        exit(-1)
+    else:
+        with open(site_list, 'rb') as f:
+            contents = f.read()
+    return [tuple(x.split(',')) for x in contents.decode('utf8').strip().split('\n')]
+
+
 if __name__ == '__main__':
+    print("====>Arguments:")
+    print(sys.argv)
     print("====>Start time is:")
     start = time.time()
     print(start)
-    sites = alexa_top_n(10)
+    if len(sys.argv) == 1:
+        sites = alexa_top_n(10)
+    else:
+        sites = load_ranked_seed_list(sys.argv[1])
     shuffle(sites)
     print(sites)
     nprocesses = 30

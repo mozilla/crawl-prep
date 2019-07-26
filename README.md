@@ -29,8 +29,13 @@ python list_merge.py
 
 ### Crawl URLs
 
-This will fetch Alexa Top 10k, crawl through each site and gather one depth of internal links. The results will be saved in `./data`. 
+This will crawl through each site of `seed_list.csv` and gather one depth of internal links. The results will be saved in `./data`. 
 
+```
+python -m depth_n_link_following_crawl.gather_internal_links seed_list.csv unranked
+```
+
+If the seed list argument is omitted, Alexa Top 10 will be used: 
 ```
 python -m depth_n_link_following_crawl.gather_internal_links
 ```
