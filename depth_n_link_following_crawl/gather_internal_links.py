@@ -107,14 +107,11 @@ def collect_homepage_links(sites, nprocesses=10):
     print("%.2f minutes" % minutes)
 
 
-def sample_top_1m():
+def alexa_top_n(n):
     return cu.sample_top_sites(
         location=DATA_DIR,
         include_rank=True,
-        slices=[(10000, 0, 10000)]
-        # slices=[(15000, 0, 15000),
-        #       (15000, 15000, 100000),
-        #      (20000, 100000, 1000000)]
+        slices=[(n, 0, n)]
     )
 
 
@@ -122,7 +119,7 @@ if __name__ == '__main__':
     print("====>Start time is:")
     start = time.time()
     print(start)
-    sites = sample_top_1m()
+    sites = alexa_top_n(10)
     shuffle(sites)
     print(sites)
     collect_homepage_links(sites, nprocesses=30)
