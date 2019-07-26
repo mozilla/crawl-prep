@@ -1,18 +1,20 @@
 from __future__ import absolute_import
 
-from bs4 import BeautifulSoup
-import multiprocessing
-import urllib.parse 
-import requests
 import json
+import multiprocessing
 import os
 import time
+import urllib.parse
 from random import shuffle
 
-# Available: https://github.com/mozilla/OpenWPM/blob/master/automation/utilities/domain_utils.py  # noqa
-import depth_n_link_following_crawl.upstream.domain_utils as du
+import requests
+from bs4 import BeautifulSoup
+
 # Available: https://github.com/mozilla/openwpm-crawler/blob/master/utilities/crawl_utils.py  # noqa
 import depth_n_link_following_crawl.upstream.crawl_utils as cu
+# Available: https://github.com/mozilla/OpenWPM/blob/master/automation/utilities/domain_utils.py  # noqa
+import depth_n_link_following_crawl.upstream.domain_utils as du
+
 DEPTH = 1
 DATA_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'data')
 ALL_INTERNAL_LINKS = os.path.join(DATA_DIR, 'internal_links.json')

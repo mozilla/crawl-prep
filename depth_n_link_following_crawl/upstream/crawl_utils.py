@@ -1,12 +1,13 @@
 """ A collection of utilities for crawl scripts """
-from io import BytesIO
-import requests
-import zipfile
+import glob
+import json
+import os
 import random
 import shutil
-import json
-import glob
-import os
+import zipfile
+from io import BytesIO
+
+import requests
 
 ALEXA_LIST = 'http://s3.amazonaws.com/alexa-static/top-1m.csv.zip'
 

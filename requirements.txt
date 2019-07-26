@@ -4,3 +4,4 @@ boto3
 publicsuffix
 bs4
 lxml
+isort

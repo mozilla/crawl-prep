@@ -1,8 +1,9 @@
 from __future__ import absolute_import
 
 import json
-import depth_n_link_following_crawl.upstream.domain_utils as du
 import os
+
+import depth_n_link_following_crawl.upstream.domain_utils as du
 
 DATA_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'data')
 

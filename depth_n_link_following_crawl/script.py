@@ -1,7 +1,8 @@
 import json
-import pickle
-import matplotlib.pyplot as plt
 import os
+import pickle
+
+import matplotlib.pyplot as plt
 
 DATA_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'data')
 
