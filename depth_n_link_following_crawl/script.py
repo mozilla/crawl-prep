@@ -21,7 +21,7 @@ def parse(string):
 
 for i in range(len(jsondata)):
     for j in jsondata[i][1]:
-        if j.startswith("http"):
+        if j.startswith("http") and "://" in j:
             tld = parse(j)
             finaltld[tld] = finaltld.get(tld, 0) + 1
 

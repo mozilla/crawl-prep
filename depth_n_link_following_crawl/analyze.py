@@ -23,7 +23,7 @@ result = {}
 frequency_dict = {}
 for i in range(len(jsondata)):
     for j in jsondata[i][1]:
-        if j.startswith("http"):
+        if j.startswith("http") and "://" in j:
             tld = du.get_ps_plus_1(j)
             if tld in result:
                 result[tld] += 1
