@@ -33,12 +33,14 @@ def get_internal_links_depth(site, depth):
         print("Visiting %s..." % site)
         try:
             if depth == DEPTH:
-                resp = requests.get('http://' + site, headers=headers, timeout=60)
+                resp = requests.get(
+                    'http://' + site, headers=headers, timeout=60)
             else:
                 resp = requests.get(site, headers=headers, timeout=60)
         except Exception as e:
             if depth == DEPTH:
-                resp = requests.get('http://www.' + site, headers=headers, timeout=60)
+                resp = requests.get('http://www.' + site,
+                                    headers=headers, timeout=60)
             else:
                 resp = requests.get(site, headers=headers, timeout=60)
         if resp.status_code != 200:
@@ -64,7 +66,7 @@ def get_internal_links_depth(site, depth):
 
             if (not href.startswith('http') or
                     du.get_ps_plus_1(href) == top_ps1):
-            #if (not href.startswith('http')):
+                # if (not href.startswith('http')):
                 continue
             links.add(urllib.parse.urldefrag(href)[0])
 
@@ -109,10 +111,10 @@ def sample_top_1m():
     return cu.sample_top_sites(
         location=DATA_DIR,
         include_rank=True,
-        slices = [(10000, 0, 10000)]
-        #slices=[(15000, 0, 15000),
-         #       (15000, 15000, 100000),
-          #      (20000, 100000, 1000000)]
+        slices=[(10000, 0, 10000)]
+        # slices=[(15000, 0, 15000),
+        #       (15000, 15000, 100000),
+        #      (20000, 100000, 1000000)]
     )
 
 
