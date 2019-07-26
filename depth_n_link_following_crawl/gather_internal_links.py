@@ -122,4 +122,7 @@ if __name__ == '__main__':
     sites = alexa_top_n(10)
     shuffle(sites)
     print(sites)
-    collect_homepage_links(sites, nprocesses=30)
+    nprocesses = 30
+    if len(sites) < 30:
+        nprocesses = len(sites)
+    collect_homepage_links(sites, nprocesses=nprocesses)
