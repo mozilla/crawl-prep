@@ -46,3 +46,15 @@ Run some analysis on the results:
 python -m depth_n_link_following_crawl.script
 python -m depth_n_link_following_crawl.analyze
 ```
+
+### Crawl URLs script (for containerized deployment)
+
+This will fetch a seed list from S3, crawl through each site and gather one depth of internal links. The results will be saved in S3:
+
+```
+export SEED_LIST_PATH='path/to/ranked_seed_list.csv'
+export INTERNAL_LINKS_JSON_OUTPUT_PATH='path/to/internal_links.json'
+export S3_BUCKET='bucket-name'
+export SEED_LIST_IS_UNRANKED='0' # or '1' if the seed list is unranked
+./pre-crawl.sh
+```
