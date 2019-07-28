@@ -1,3 +1,5 @@
+# From: https://github.com/mozilla/openwpm-crawler/blob/master/utilities/crawl_utils.py  # noqa
+
 """ A collection of utilities for crawl scripts """
 import glob
 import json
@@ -109,3 +111,16 @@ def clear_tmp_folder():
             os.remove(tmpfile)
         except OSError:
             pass
+
+
+def load_ranked_seed_list(seed_list_arg):
+    site_list = os.path.join(os.getcwd(), seed_list_arg)
+    if not os.path.isfile(site_list):
+        print("%s does not exist." % site_list)
+        exit(-1)
+    else:
+        with open(site_list, 'rb') as f:
+            contents = f.read()
+    return [tuple(x.split(',')) for x in contents.decode('utf8').strip().split('\n')]
+
+

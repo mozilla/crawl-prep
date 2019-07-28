@@ -1,3 +1,5 @@
+# From: https://github.com/mozilla/OpenWPM/blob/master/automation/utilities/domain_utils.py  # noqa
+
 from __future__ import absolute_import, print_function
 
 import codecs

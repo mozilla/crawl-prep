@@ -11,9 +11,7 @@ from random import shuffle
 import requests
 from bs4 import BeautifulSoup
 
-# Available: https://github.com/mozilla/openwpm-crawler/blob/master/utilities/crawl_utils.py  # noqa
 import depth_n_link_following_crawl.upstream.crawl_utils as cu
-# Available: https://github.com/mozilla/OpenWPM/blob/master/automation/utilities/domain_utils.py  # noqa
 import depth_n_link_following_crawl.upstream.domain_utils as du
 
 DEPTH = 1
@@ -117,17 +115,6 @@ def alexa_top_n(n):
     )
 
 
-def load_ranked_seed_list(seed_list_arg):
-    site_list = os.path.join(os.getcwd(), seed_list_arg)
-    if not os.path.isfile(site_list):
-        print("%s does not exist." % site_list)
-        exit(-1)
-    else:
-        with open(site_list, 'rb') as f:
-            contents = f.read()
-    return [tuple(x.split(',')) for x in contents.decode('utf8').strip().split('\n')]
-
-
 if __name__ == '__main__':
     print("====>Arguments:")
     print(sys.argv)
@@ -137,7 +124,7 @@ if __name__ == '__main__':
     if len(sys.argv) == 1:
         sites = alexa_top_n(10)
     else:
-        sites = load_ranked_seed_list(sys.argv[1])
+        sites = cu.load_ranked_seed_list(sys.argv[1])
     shuffle(sites)
     print(sites)
     nprocesses = 30
