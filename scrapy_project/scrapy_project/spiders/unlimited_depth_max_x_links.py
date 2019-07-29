@@ -27,17 +27,18 @@ class UnlimitedDepthMaxXLinksSpider(scrapy.Spider):
         for rank, site in ranked_sites:
             if "://" not in site:
                 site = "http://" + site
-            yield scrapy.Request(site, self.parse)
+            yield scrapy.Request(site, self.parse, cb_kwargs={"seed_url": site})
 
     def parse(self,
               response,
               seed_url=None,
+              seed_url_after_redirects=None,
               links_followed_to_arrive_on_current_url=None,
               gathered_links_for_this_seed_url=None
               ):
         current_url = response.url
-        if seed_url is None:
-            seed_url = current_url
+        if seed_url_after_redirects is None:
+            seed_url_after_redirects = current_url
         if links_followed_to_arrive_on_current_url is None:
             links_followed_to_arrive_on_current_url = []
         if gathered_links_for_this_seed_url is None:
@@ -66,6 +67,7 @@ class UnlimitedDepthMaxXLinksSpider(scrapy.Spider):
                         'total_links_found_on_current_url': len(links),
                         'depth': len(links_followed_to_arrive_on_current_url)+1,
                         'seed_url': seed_url,
+                        'seed_url_after_redirects': seed_url_after_redirects,
                     }
 
             # if less than 10 links gathered so far... randomly visit a link to get more
