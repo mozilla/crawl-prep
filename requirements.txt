@@ -7,3 +7,4 @@ lxml
 isort
 autopep8
 s3cmd
+scrapy
