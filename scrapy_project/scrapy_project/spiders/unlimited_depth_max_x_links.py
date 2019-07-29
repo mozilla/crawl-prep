@@ -61,14 +61,14 @@ class UnlimitedDepthMaxXLinksSpider(scrapy.Spider):
                 if len(gathered_links_for_this_seed_url) < 10:
                     href = response.urljoin(link.css('a::attr(href)').get())
                     gathered_links_for_this_seed_url.append(href)
-                    yield {
+                    yield response.follow(href, callback=self.save_successfully_followed_url, cb_kwargs={
                         'href': href,
                         'current_url': current_url,
                         'total_links_found_on_current_url': len(links),
                         'depth': len(links_followed_to_arrive_on_current_url) + 1,
                         'seed_url': seed_url,
                         'seed_url_after_redirects': seed_url_after_redirects,
-                    }
+                    })
 
             # if less than 10 links gathered so far... randomly visit a link to get more
             if len(gathered_links_for_this_seed_url) < 10:
@@ -89,3 +89,22 @@ class UnlimitedDepthMaxXLinksSpider(scrapy.Spider):
             self.logger.info("No links to follow on: %s " % (current_url))
             # TODO: Step up one level of links followed and attempt to find more links?
             # Or do a breadth first from the top instead of depth first?
+
+    def save_successfully_followed_url(self,
+              response,
+              href=None,
+              current_url=None,
+              total_links_found_on_current_url=None,
+              depth=None,
+              seed_url=None,
+              seed_url_after_redirects=None,
+              ):
+        yield {
+            'parsed_href': response.url,
+            'href': href,
+            'current_url': current_url,
+            'total_links_found_on_current_url': total_links_found_on_current_url,
+            'depth': depth,
+            'seed_url': seed_url,
+            'seed_url_after_redirects': seed_url_after_redirects,
+        }
