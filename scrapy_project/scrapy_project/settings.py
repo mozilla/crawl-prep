@@ -16,13 +16,31 @@ NEWSPIDER_MODULE = 'scrapy_project.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'scrapy_project (+http://www.yourdomain.com)'
+USER_AGENT = 'pre-crawl (+https://github.com/mozilla/crawl-prep)'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-#CONCURRENT_REQUESTS = 32
+CONCURRENT_REQUESTS = 30
+
+# Increase Twisted IO thread pool maximum size
+# See http://doc.scrapy.org/en/latest/topics/broad-crawls.html#increase-twisted-io-thread-pool-maximum-size
+REACTOR_THREADPOOL_MAXSIZE = 20
+
+# Reduce download timeout
+# See http://doc.scrapy.org/en/latest/topics/broad-crawls.html#reduce-download-timeout
+DOWNLOAD_TIMEOUT = 15
+
+# Enable crawling of “Ajax Crawlable Pages”
+# See http://doc.scrapy.org/en/latest/topics/broad-crawls.html#enable-crawling-of-ajax-crawlable-pages
+AJAXCRAWL_ENABLED = True
+
+# Configure a breadth-first crawl
+# See http://doc.scrapy.org/en/latest/faq.html#does-scrapy-crawl-in-breadth-first-or-depth-first-order
+DEPTH_PRIORITY = 1
+SCHEDULER_DISK_QUEUE = 'scrapy.squeues.PickleFifoDiskQueue'
+SCHEDULER_MEMORY_QUEUE = 'scrapy.squeues.FifoMemoryQueue'
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
@@ -70,7 +88,7 @@ ROBOTSTXT_OBEY = True
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
-#AUTOTHROTTLE_ENABLED = True
+AUTOTHROTTLE_ENABLED = True
 # The initial download delay
 #AUTOTHROTTLE_START_DELAY = 5
 # The maximum download delay to be set in case of high latencies
@@ -83,8 +101,12 @@ ROBOTSTXT_OBEY = True
 
 # Enable and configure HTTP caching (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings
-#HTTPCACHE_ENABLED = True
+HTTPCACHE_ENABLED = True
 #HTTPCACHE_EXPIRATION_SECS = 0
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+# Whether to collect verbose depth stats. If this is enabled, the number of requests for each depth is collected in the stats.
+# See http://doc.scrapy.org/en/latest/topics/settings.html#depth-stats-verbose
+DEPTH_STATS_VERBOSE = True

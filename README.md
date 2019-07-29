@@ -35,6 +35,14 @@ The ALEXA list, truncated at 10000 elements, is a complete subset of the final l
 The TRANCO list, truncated at 10000 elements, is a complete subset of the final list of 14556 elements: True
 ```
 
+### Crawl URLs using Scrapy
+
+```
+cd scrapy_project
+rm crawl_results.csv || true
+scrapy crawl unlimited_depth_max_x_links -o crawl_results.csv
+```
+
 ### Crawl URLs
 
 This will crawl through each site of `seed_list.csv` and gather one depth of internal links. The results will be saved in `./data`. 
