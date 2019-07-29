@@ -27,11 +27,12 @@ class UnlimitedDepthMaxXLinksSpider(scrapy.Spider):
         for rank, site in ranked_sites:
             if "://" not in site:
                 site = "http://" + site
-            yield scrapy.Request(site, self.parse, cb_kwargs={"seed_url": site})
+            yield scrapy.Request(site, self.parse, cb_kwargs={"seed_url": site, "seed_rank": rank})
 
     def parse(self,
               response,
               href=None,
+              seed_rank=None,
               seed_url=None,
               seed_url_after_redirects=None,
               links_followed_to_arrive_on_current_url=None,
@@ -57,6 +58,7 @@ class UnlimitedDepthMaxXLinksSpider(scrapy.Spider):
             'current_url': current_url,
             'total_links_found_on_current_url': total_links_found_on_current_url,
             'depth': len(links_followed_to_arrive_on_current_url),
+            'seed_rank': seed_rank,
             'seed_url': seed_url,
             'seed_url_after_redirects': seed_url_after_redirects,
         }
@@ -80,6 +82,7 @@ class UnlimitedDepthMaxXLinksSpider(scrapy.Spider):
                         'current_url': current_url,
                         'total_links_found_on_current_url': total_links_found_on_current_url,
                         'depth': len(links_followed_to_arrive_on_current_url) + 1,
+                        'seed_rank': seed_rank,
                         'seed_url': seed_url,
                         'seed_url_after_redirects': seed_url_after_redirects,
                     })
@@ -111,6 +114,7 @@ class UnlimitedDepthMaxXLinksSpider(scrapy.Spider):
                                        current_url=None,
                                        total_links_found_on_current_url=None,
                                        depth=None,
+                                       seed_rank=None,
                                        seed_url=None,
                                        seed_url_after_redirects=None,
                                        ):
@@ -120,6 +124,7 @@ class UnlimitedDepthMaxXLinksSpider(scrapy.Spider):
             'current_url': current_url,
             'total_links_found_on_current_url': total_links_found_on_current_url,
             'depth': depth,
+            'seed_rank': seed_rank,
             'seed_url': seed_url,
             'seed_url_after_redirects': seed_url_after_redirects,
         }
