@@ -27,6 +27,14 @@ This strategy priorities rank of one list for tie breaking and de-duplicates whi
 python list_merge.py
 ```
 
+Example output:
+```
+Length of combined ALEXA/TRANCO list: 14556
+Verifying that the list is composed of only unique elements: True
+The ALEXA list, truncated at 10000 elements, is a complete subset of the final list of 14556 elements: True
+The TRANCO list, truncated at 10000 elements, is a complete subset of the final list of 14556 elements: True
+```
+
 ### Crawl URLs
 
 This will crawl through each site of `seed_list.csv` and gather one depth of internal links. The results will be saved in `./data`. 
