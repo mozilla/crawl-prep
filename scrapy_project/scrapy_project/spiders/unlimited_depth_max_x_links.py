@@ -65,7 +65,7 @@ class UnlimitedDepthMaxXLinksSpider(scrapy.Spider):
                         'href': href,
                         'current_url': current_url,
                         'total_links_found_on_current_url': len(links),
-                        'depth': len(links_followed_to_arrive_on_current_url)+1,
+                        'depth': len(links_followed_to_arrive_on_current_url) + 1,
                         'seed_url': seed_url,
                         'seed_url_after_redirects': seed_url_after_redirects,
                     }
