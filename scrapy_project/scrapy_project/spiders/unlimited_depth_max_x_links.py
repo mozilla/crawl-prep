@@ -31,6 +31,7 @@ class UnlimitedDepthMaxXLinksSpider(scrapy.Spider):
 
     def parse(self,
               response,
+              href=None,
               seed_url=None,
               seed_url_after_redirects=None,
               links_followed_to_arrive_on_current_url=None,
@@ -45,7 +46,20 @@ class UnlimitedDepthMaxXLinksSpider(scrapy.Spider):
             gathered_links_for_this_seed_url = []
 
         links = response.css('a')
-        self.logger.info("Found %s links on %s" % (len(links), current_url))
+        total_links_found_on_current_url = len(links)
+        self.logger.info("Found %s links on %s" %
+                         (total_links_found_on_current_url, current_url))
+
+        # add this visited url to the seed list
+        yield {
+            'url': current_url,
+            'href': href,
+            'current_url': current_url,
+            'total_links_found_on_current_url': total_links_found_on_current_url,
+            'depth': len(links_followed_to_arrive_on_current_url),
+            'seed_url': seed_url,
+            'seed_url_after_redirects': seed_url_after_redirects,
+        }
 
         if len(links) > 0:
 
@@ -64,7 +78,7 @@ class UnlimitedDepthMaxXLinksSpider(scrapy.Spider):
                     yield response.follow(href, callback=self.save_successfully_followed_url, cb_kwargs={
                         'href': href,
                         'current_url': current_url,
-                        'total_links_found_on_current_url': len(links),
+                        'total_links_found_on_current_url': total_links_found_on_current_url,
                         'depth': len(links_followed_to_arrive_on_current_url) + 1,
                         'seed_url': seed_url,
                         'seed_url_after_redirects': seed_url_after_redirects,
@@ -77,6 +91,7 @@ class UnlimitedDepthMaxXLinksSpider(scrapy.Spider):
                     links_followed_to_arrive_on_current_url.append(
                         response.urljoin(random_link.css('a::attr(href)').get()))
                     yield response.follow(random_link, callback=self.parse, cb_kwargs=dict(
+                        href=random_link,
                         seed_url=seed_url,
                         links_followed_to_arrive_on_current_url=links_followed_to_arrive_on_current_url,
                         gathered_links_for_this_seed_url=gathered_links_for_this_seed_url,
@@ -100,7 +115,7 @@ class UnlimitedDepthMaxXLinksSpider(scrapy.Spider):
                                        seed_url_after_redirects=None,
                                        ):
         yield {
-            'parsed_href': response.url,
+            'url': response.url,
             'href': href,
             'current_url': current_url,
             'total_links_found_on_current_url': total_links_found_on_current_url,
