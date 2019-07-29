@@ -100,5 +100,6 @@ DEPTH_STATS_VERBOSE = True
 SENTRY_DSN = os.getenv('SENTRY_DSN', None)
 if SENTRY_DSN is not None:
     EXTENSIONS = {
-        'scrapy_project.extensions.SentryLogging': -1, # Load SentryLogging extension before others
+        # Load SentryLogging extension before others
+        'scrapy_project.extensions.SentryLogging': -1,
     }

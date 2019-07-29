@@ -1,6 +1,7 @@
 import sentry_sdk
 from scrapy.exceptions import NotConfigured
 
+
 class SentryLogging(object):
     """
     Send exceptions and errors to Sentry.

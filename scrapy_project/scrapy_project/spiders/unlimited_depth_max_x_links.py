@@ -91,14 +91,14 @@ class UnlimitedDepthMaxXLinksSpider(scrapy.Spider):
             # Or do a breadth first from the top instead of depth first?
 
     def save_successfully_followed_url(self,
-              response,
-              href=None,
-              current_url=None,
-              total_links_found_on_current_url=None,
-              depth=None,
-              seed_url=None,
-              seed_url_after_redirects=None,
-              ):
+                                       response,
+                                       href=None,
+                                       current_url=None,
+                                       total_links_found_on_current_url=None,
+                                       depth=None,
+                                       seed_url=None,
+                                       seed_url_after_redirects=None,
+                                       ):
         yield {
             'parsed_href': response.url,
             'href': href,
