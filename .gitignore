@@ -3,3 +3,5 @@
 *.swp
 venv
 .idea
+scrapy_project/.scrapy
+crawl_results.csv

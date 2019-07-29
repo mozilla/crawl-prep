@@ -27,17 +27,35 @@ This strategy priorities rank of one list for tie breaking and de-duplicates whi
 python list_merge.py
 ```
 
+Example output:
+```
+Length of combined ALEXA/TRANCO list: 14556
+Verifying that the list is composed of only unique elements: True
+The ALEXA list, truncated at 10000 elements, is a complete subset of the final list of 14556 elements: True
+The TRANCO list, truncated at 10000 elements, is a complete subset of the final list of 14556 elements: True
+```
+
 ### Crawl URLs
 
-This will fetch Alexa Top 10k, crawl through each site and gather one depth of internal links. The results will be saved in `./data`. 
+This will crawl through each site of `ranked_seed_list.csv` and gather at most 10 internal links, following random links until at most 10 has been found. The results will be saved in `crawl_results.csv`.
 
 ```
-python -m depth_n_link_following_crawl.gather_internal_links
+./pre-crawl.sh ranked_seed_list.csv
 ```
 
-Run some analysis on the results:
+Or, if the seed list is unranked (ie just a list of URLs):
+```
+./pre-crawl.sh unranked_seed_list.csv 1
+```
+
+### Crawl URLs script for containerized deployment
+
+This will fetch a seed list from S3, crawl through each site and gather one depth of internal links. The results will be saved in S3:
 
 ```
-python -m depth_n_link_following_crawl.script
-python -m depth_n_link_following_crawl.analyze
+export SEED_LIST_PATH='path/to/ranked_seed_list.csv'
+export CRAWL_RESULTS_OUTPUT_PATH='path/to/crawl_results.csv'
+export S3_BUCKET='bucket-name'
+export SEED_LIST_IS_UNRANKED='0' # or '1' if the seed list is unranked
+./s3-pre-crawl.sh
 ```
