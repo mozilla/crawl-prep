@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import os
+
 # Scrapy settings for scrapy_project project
 #
 # For simplicity, this file contains only settings considered important or
@@ -92,3 +94,10 @@ HTTPCACHE_ENABLED = True
 # Whether to collect verbose depth stats. If this is enabled, the number of requests for each depth is collected in the stats.
 # See http://doc.scrapy.org/en/latest/topics/settings.html#depth-stats-verbose
 DEPTH_STATS_VERBOSE = True
+
+# Send exceptions to Sentry
+# See https://stackoverflow.com/a/54964660/682317
+EXTENSIONS = {
+    'scrapy_project.extensions.SentryLogging': -1, # Load SentryLogging extension before others
+}
+SENTRY_DSN = os.getenv('SENTRY_DSN', None)
