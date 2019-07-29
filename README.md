@@ -40,7 +40,8 @@ The TRANCO list, truncated at 10000 elements, is a complete subset of the final 
 ```
 cd scrapy_project
 rm crawl_results.csv || true
-scrapy crawl unlimited_depth_max_x_links -o crawl_results.csv
+awk '{printf "%d,%s\n", NR, $0}' < lists/tranco_10k_alexa_10k_union.head10.csv > /tmp/ranked_seed_list.csv
+scrapy crawl unlimited_depth_max_x_links -o crawl_results.csv -a ranked_seed_list_csv=/tmp/ranked_seed_list.csv
 ```
 
 ### Crawl URLs

@@ -1,12 +1,33 @@
 # -*- coding: utf-8 -*-
+import os
 import random
 
 import scrapy
 
 
+def load_ranked_seed_list(seed_list_arg):
+    site_list = os.path.join(os.getcwd(), seed_list_arg)
+    if not os.path.isfile(site_list):
+        print("%s does not exist." % site_list)
+        exit(-1)
+    else:
+        with open(site_list, 'rb') as f:
+            contents = f.read()
+    return [tuple(x.split(',')) for x in contents.decode('utf8').strip().split('\n')]
+
+
 class UnlimitedDepthMaxXLinksSpider(scrapy.Spider):
     name = 'unlimited_depth_max_x_links'
-    start_urls = ['http://example.com/']
+
+    def start_requests(self):
+        ranked_seed_list_csv = getattr(self, 'ranked_seed_list_csv', None)
+        if ranked_seed_list_csv is None:
+            raise ValueError("ranked_seed_list_csv needs to be supplied")
+        ranked_sites = load_ranked_seed_list(ranked_seed_list_csv)
+        for rank, site in ranked_sites:
+            if "://" not in site:
+                site = "http://" + site
+            yield scrapy.Request(site, self.parse)
 
     def parse(self,
               response,
