@@ -97,7 +97,8 @@ DEPTH_STATS_VERBOSE = True
 
 # Send exceptions to Sentry
 # See https://stackoverflow.com/a/54964660/682317
-EXTENSIONS = {
-    'scrapy_project.extensions.SentryLogging': -1, # Load SentryLogging extension before others
-}
 SENTRY_DSN = os.getenv('SENTRY_DSN', None)
+if SENTRY_DSN is not None:
+    EXTENSIONS = {
+        'scrapy_project.extensions.SentryLogging': -1, # Load SentryLogging extension before others
+    }
