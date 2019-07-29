@@ -35,43 +35,27 @@ The ALEXA list, truncated at 10000 elements, is a complete subset of the final l
 The TRANCO list, truncated at 10000 elements, is a complete subset of the final list of 14556 elements: True
 ```
 
-### Crawl URLs using Scrapy
-
-```
-cd scrapy_project
-rm crawl_results.csv || true
-awk '{printf "%d,%s\n", NR, $0}' < lists/tranco_10k_alexa_10k_union.head10.csv > /tmp/ranked_seed_list.csv
-scrapy crawl unlimited_depth_max_x_links -o crawl_results.csv -a ranked_seed_list_csv=/tmp/ranked_seed_list.csv
-```
-
 ### Crawl URLs
 
-This will crawl through each site of `seed_list.csv` and gather one depth of internal links. The results will be saved in `./data`. 
+This will crawl through each site of `ranked_seed_list.csv` and gather at most 10 internal links, following random links until at most 10 has been found. The results will be saved in `crawl_results.csv`.
 
 ```
-python -m depth_n_link_following_crawl.gather_internal_links seed_list.csv unranked
+./pre-crawl.sh ranked_seed_list.csv
 ```
 
-If the seed list argument is omitted, Alexa Top 10 will be used: 
+Or, if the seed list is unranked (ie just a list of URLs):
 ```
-python -m depth_n_link_following_crawl.gather_internal_links
-```
-
-Run some analysis on the results:
-
-```
-python -m depth_n_link_following_crawl.script
-python -m depth_n_link_following_crawl.analyze
+./pre-crawl.sh unranked_seed_list.csv 1
 ```
 
-### Crawl URLs script (for containerized deployment)
+### Crawl URLs script for containerized deployment
 
 This will fetch a seed list from S3, crawl through each site and gather one depth of internal links. The results will be saved in S3:
 
 ```
 export SEED_LIST_PATH='path/to/ranked_seed_list.csv'
-export INTERNAL_LINKS_JSON_OUTPUT_PATH='path/to/internal_links.json'
+export CRAWL_RESULTS_OUTPUT_PATH='path/to/crawl_results.csv'
 export S3_BUCKET='bucket-name'
 export SEED_LIST_IS_UNRANKED='0' # or '1' if the seed list is unranked
-./pre-crawl.sh
+./s3-pre-crawl.sh
 ```
