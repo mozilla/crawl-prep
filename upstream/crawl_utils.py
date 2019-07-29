@@ -122,5 +122,3 @@ def load_ranked_seed_list(seed_list_arg):
         with open(site_list, 'rb') as f:
             contents = f.read()
     return [tuple(x.split(',')) for x in contents.decode('utf8').strip().split('\n')]
-
-

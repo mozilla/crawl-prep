@@ -11,8 +11,8 @@ from random import shuffle
 import requests
 from bs4 import BeautifulSoup
 
-import depth_n_link_following_crawl.upstream.crawl_utils as cu
-import depth_n_link_following_crawl.upstream.domain_utils as du
+import upstream.crawl_utils as cu
+import upstream.domain_utils as du
 
 DEPTH = 1
 DATA_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'data')
