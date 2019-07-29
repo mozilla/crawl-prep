@@ -4,4 +4,4 @@
 venv
 .idea
 scrapy_project/.scrapy
-crawl_results.csv
+pre_crawl_results.csv
