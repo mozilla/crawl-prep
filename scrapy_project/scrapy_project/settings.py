@@ -62,28 +62,10 @@ SCHEDULER_MEMORY_QUEUE = 'scrapy.squeues.FifoMemoryQueue'
 #   'Accept-Language': 'en',
 # }
 
-# Enable or disable spider middlewares
-# See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-# SPIDER_MIDDLEWARES = {
-#    'scrapy_project.middlewares.ScrapyProjectSpiderMiddleware': 543,
-# }
-
-# Enable or disable downloader middlewares
-# See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-# DOWNLOADER_MIDDLEWARES = {
-#    'scrapy_project.middlewares.ScrapyProjectDownloaderMiddleware': 543,
-# }
-
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
 # EXTENSIONS = {
 #    'scrapy.extensions.telnet.TelnetConsole': None,
-# }
-
-# Configure item pipelines
-# See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-# ITEM_PIPELINES = {
-#    'scrapy_project.pipelines.ScrapyProjectPipeline': 300,
 # }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
