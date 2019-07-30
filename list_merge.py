@@ -1,5 +1,5 @@
-ALEXA_LIST_FILE = "lists/ALEXA-cannonical-top1m_24-07-2019.csv"
-TRANCO_LIST_FILE = "lists/TRANCO-cannonical-top1m_24-07-2019.csv"
+ALEXA_LIST_FILE = "lists/ALEXA-canonical-top1m_24-07-2019.csv"
+TRANCO_LIST_FILE = "lists/TRANCO-canonical-top1m_24-07-2019.csv"
 FINAL_LIST_FILE = "lists/tranco_10k_alexa_10k_union.csv"
 
 # Set the desired final list length in terms of ALEXA maximum index.

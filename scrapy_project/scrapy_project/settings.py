@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import os
+
 # Scrapy settings for scrapy_project project
 #
 # For simplicity, this file contains only settings considered important or
@@ -22,7 +24,7 @@ USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:68.0) Gecko/20100
 ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-CONCURRENT_REQUESTS = 30
+CONCURRENT_REQUESTS = int(os.getenv('CONCURRENT_REQUESTS', 30))
 
 # Increase Twisted IO thread pool maximum size
 # See http://doc.scrapy.org/en/latest/topics/broad-crawls.html#increase-twisted-io-thread-pool-maximum-size
@@ -92,3 +94,12 @@ HTTPCACHE_ENABLED = True
 # Whether to collect verbose depth stats. If this is enabled, the number of requests for each depth is collected in the stats.
 # See http://doc.scrapy.org/en/latest/topics/settings.html#depth-stats-verbose
 DEPTH_STATS_VERBOSE = True
+
+# Send exceptions to Sentry
+# See https://stackoverflow.com/a/54964660/682317
+SENTRY_DSN = os.getenv('SENTRY_DSN', None)
+if SENTRY_DSN is not None:
+    EXTENSIONS = {
+        # Load SentryLogging extension before others
+        'scrapy_project.extensions.SentryLogging': -1,
+    }

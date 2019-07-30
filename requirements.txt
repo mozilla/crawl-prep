@@ -2,3 +2,4 @@ isort
 autopep8
 s3cmd
 scrapy
+sentry_sdk
