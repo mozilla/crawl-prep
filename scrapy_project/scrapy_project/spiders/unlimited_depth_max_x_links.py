@@ -31,7 +31,8 @@ class UnlimitedDepthMaxXLinksSpider(scrapy.Spider):
 
     def parse(self,
               response,
-              href=None,
+              href_before_redirects=None,
+              href_containing_url=None,
               seed_rank=None,
               seed_url=None,
               seed_url_after_redirects=None,
@@ -51,11 +52,11 @@ class UnlimitedDepthMaxXLinksSpider(scrapy.Spider):
         self.logger.info("Found %s links on %s" %
                          (total_links_found_on_current_url, current_url))
 
-        # add this visited url to the seed list
+        # add this visited url to the results
         yield {
-            'url': current_url,
-            'href': href,
-            'current_url': current_url,
+            'href_after_redirects': current_url,
+            'href_before_redirects': href_before_redirects,
+            'href_containing_url': href_containing_url,
             'total_links_found_on_current_url': total_links_found_on_current_url,
             'depth': len(links_followed_to_arrive_on_current_url),
             'seed_rank': seed_rank,
@@ -78,8 +79,8 @@ class UnlimitedDepthMaxXLinksSpider(scrapy.Spider):
                     href = response.urljoin(link.css('a::attr(href)').get())
                     gathered_links_for_this_seed_url.append(href)
                     yield response.follow(href, callback=self.save_successfully_followed_url, cb_kwargs={
-                        'href': href,
-                        'current_url': current_url,
+                        'href_before_redirects': href,
+                        'href_containing_url': current_url,
                         'total_links_found_on_current_url': total_links_found_on_current_url,
                         'depth': len(links_followed_to_arrive_on_current_url) + 1,
                         'seed_rank': seed_rank,
@@ -110,8 +111,8 @@ class UnlimitedDepthMaxXLinksSpider(scrapy.Spider):
 
     def save_successfully_followed_url(self,
                                        response,
-                                       href=None,
-                                       current_url=None,
+                                       href_before_redirects=None,
+                                       href_containing_url=None,
                                        total_links_found_on_current_url=None,
                                        depth=None,
                                        seed_rank=None,
@@ -119,9 +120,9 @@ class UnlimitedDepthMaxXLinksSpider(scrapy.Spider):
                                        seed_url_after_redirects=None,
                                        ):
         yield {
-            'url': response.url,
-            'href': href,
-            'current_url': current_url,
+            'href_after_redirects': response.url,
+            'href_before_redirects': href_before_redirects,
+            'href_containing_url': href_containing_url,
             'total_links_found_on_current_url': total_links_found_on_current_url,
             'depth': depth,
             'seed_rank': seed_rank,
