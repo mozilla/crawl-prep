@@ -47,7 +47,7 @@ class UnlimitedDepthMaxXLinksSpider(scrapy.Spider):
         if gathered_http_hrefs_for_this_seed_url is None:
             gathered_http_hrefs_for_this_seed_url = []
 
-        href_anchors = response.css('a')
+        href_anchors = response.css('a[href]')
         total_href_anchors_found_on_current_url = len(href_anchors)
         self.logger.info("Found %s href_anchors on %s" %
                          (total_href_anchors_found_on_current_url, current_url))
