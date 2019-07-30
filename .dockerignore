@@ -1,0 +1,4 @@
+.git
+venv
+*.csv
+scrapy_project/.scrapy
