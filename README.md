@@ -37,7 +37,7 @@ The TRANCO list, truncated at 10000 elements, is a complete subset of the final 
 
 ### Crawl URLs
 
-This will crawl through each site of `ranked_seed_list.csv` and gather at most 10 internal links, following random links until at most 10 has been found. The results will be saved in `pre_crawl_results.csv`.
+This will crawl through each site of `ranked_seed_list.csv` and gather at most 10 internal links, following random links until at most 10 has been found.
 
 ```
 ./pre-crawl.sh ranked_seed_list.csv
@@ -46,6 +46,14 @@ This will crawl through each site of `ranked_seed_list.csv` and gather at most 1
 Or, if the seed list is unranked (ie just a list of URLs):
 ```
 ./pre-crawl.sh unranked_seed_list.csv 1
+```
+
+The results will be saved in `pre_crawl_results.csv`.
+
+Note: You can manually add rank to a seed list as per:
+
+```
+./add-rank-to-unranked-seed-list.sh unranked_seed_list.csv > ranked_seed_list.csv
 ```
 
 ### Crawl URLs script for containerized deployment
