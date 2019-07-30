@@ -27,14 +27,17 @@ class UnlimitedDepthMaxXLinksSpider(scrapy.Spider):
         for rank, site in ranked_sites:
             if "://" not in site:
                 site = "http://" + site
-            yield scrapy.Request(site, self.parse, cb_kwargs={"seed_url": site, "seed_rank": rank})
+            yield scrapy.Request(site, self.parse, cb_kwargs={
+                "seed_url_before_redirects": site,
+                "current_url_before_redirects": site,
+                "seed_rank": rank,
+            })
 
     def parse(self,
               response,
-              href_before_redirects=None,
-              href_containing_url=None,
+              current_url_before_redirects=None,
               seed_rank=None,
-              seed_url=None,
+              seed_url_before_redirects=None,
               seed_url_after_redirects=None,
               http_hrefs_followed_to_arrive_on_current_url=None,
               gathered_http_hrefs_for_this_seed_url=None
@@ -65,14 +68,16 @@ class UnlimitedDepthMaxXLinksSpider(scrapy.Spider):
 
         # add this visited url to the results
         yield {
-            'href_after_redirects': current_url,
-            'href_before_redirects': href_before_redirects,
-            'href_containing_url': href_containing_url,
+            'current_url': current_url,
+            'current_url_before_redirects': current_url_before_redirects,
             'total_href_anchors_found_on_current_url': total_href_anchors_found_on_current_url,
             'total_http_hrefs_found_on_current_url': total_http_hrefs_found_on_current_url,
+            'href_containing_url': None,
+            'total_href_anchors_found_on_href_containing_url': None,
+            'total_http_hrefs_found_on_href_containing_url': None,
             'depth': len(http_hrefs_followed_to_arrive_on_current_url),
             'seed_rank': seed_rank,
-            'seed_url': seed_url,
+            'seed_url_before_redirects': seed_url_before_redirects,
             'seed_url_after_redirects': seed_url_after_redirects,
         }
 
@@ -90,13 +95,13 @@ class UnlimitedDepthMaxXLinksSpider(scrapy.Spider):
                 if len(gathered_http_hrefs_for_this_seed_url) < 10:
                     gathered_http_hrefs_for_this_seed_url.append(http_href)
                     yield response.follow(http_href, callback=self.save_successfully_followed_url, cb_kwargs={
-                        'href_before_redirects': http_href,
+                        'current_url_before_redirects': http_href,
                         'href_containing_url': current_url,
-                        'total_href_anchors_found_on_current_url': total_href_anchors_found_on_current_url,
-                        'total_http_hrefs_found_on_current_url': total_http_hrefs_found_on_current_url,
+                        'total_href_anchors_found_on_href_containing_url': total_href_anchors_found_on_current_url,
+                        'total_http_hrefs_found_on_href_containing_url': total_http_hrefs_found_on_current_url,
                         'depth': len(http_hrefs_followed_to_arrive_on_current_url) + 1,
                         'seed_rank': seed_rank,
-                        'seed_url': seed_url,
+                        'seed_url_before_redirects': seed_url_before_redirects,
                         'seed_url_after_redirects': seed_url_after_redirects,
                     })
 
@@ -108,38 +113,39 @@ class UnlimitedDepthMaxXLinksSpider(scrapy.Spider):
                         random_http_href)
                     yield response.follow(random_http_href, callback=self.parse, cb_kwargs=dict(
                         href=random_http_href,
-                        seed_url=seed_url,
+                        seed_url_before_redirects=seed_url_before_redirects,
                         http_hrefs_followed_to_arrive_on_current_url=http_hrefs_followed_to_arrive_on_current_url,
                         gathered_http_hrefs_for_this_seed_url=gathered_http_hrefs_for_this_seed_url,
                     ))
             else:
                 self.logger.info(
-                    "We have gathered 10 http_hrefs for: %s. Ending crawl for that particular seed url" % seed_url)
+                    "We have gathered 10 http_hrefs for: %s. Ending crawl for that particular seed url" % seed_url_before_redirects)
 
         else:
-            self.logger.info("No http_hrefs to follow on: %s " % (current_url))
-            # TODO: Step up one level of http_hrefs followed and attempt to find more http_hrefs?
-            # Or do a breadth first from the top instead of depth first?
+            self.logger.info("No http_hrefs to follow on: %s " % current_url)
+            # TODO: Step up one level of http_hrefs followed and attempt to find other http_hrefs to follow?
 
     def save_successfully_followed_url(self,
                                        response,
-                                       href_before_redirects=None,
+                                       current_url_before_redirects=None,
                                        href_containing_url=None,
-                                       total_href_anchors_found_on_current_url=None,
-                                       total_http_hrefs_found_on_current_url=None,
+                                       total_href_anchors_found_on_href_containing_url=None,
+                                       total_http_hrefs_found_on_href_containing_url=None,
                                        depth=None,
                                        seed_rank=None,
-                                       seed_url=None,
+                                       seed_url_before_redirects=None,
                                        seed_url_after_redirects=None,
                                        ):
         yield {
-            'href_after_redirects': response.url,
-            'href_before_redirects': href_before_redirects,
+            'current_url': response.url,
+            'current_url_before_redirects': current_url_before_redirects,
+            'total_href_anchors_found_on_current_url': None,
+            'total_http_hrefs_found_on_current_url': None,
             'href_containing_url': href_containing_url,
-            'total_href_anchors_found_on_current_url': total_href_anchors_found_on_current_url,
-            'total_http_hrefs_found_on_current_url': total_http_hrefs_found_on_current_url,
+            'total_href_anchors_found_on_href_containing_url': total_href_anchors_found_on_href_containing_url,
+            'total_http_hrefs_found_on_href_containing_url': total_http_hrefs_found_on_href_containing_url,
             'depth': depth,
             'seed_rank': seed_rank,
-            'seed_url': seed_url,
+            'seed_url_before_redirects': seed_url_before_redirects,
             'seed_url_after_redirects': seed_url_after_redirects,
         }
