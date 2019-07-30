@@ -59,8 +59,10 @@ class UnlimitedDepthMaxXLinksSpider(scrapy.Spider):
         # (this gets rid of links to javascript:, mailto:, tel:, #foo etc)
         http_hrefs = []
         for href_anchor in href_anchors:
-            href = response.urljoin(
+            href_attribute_value = response.urljoin(
                 href_anchor.css('a::attr(href)').get())
+            # since some href attribute values are surrounded by whitespace/newlines
+            href = href_attribute_value.strip()
             if href.startswith('http'):
                 http_hrefs.append(href)
 
